@@ -97,7 +97,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="product-thumbnail">
+                    <!--<td class="product-thumbnail">
                       <img src="images/product_02.png" alt="Image" class="img-fluid">
                     </td>
                     <td class="product-name">
@@ -143,7 +143,108 @@
     
                     </td>
                     <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
+                    <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>-->
+                    <script>
+                      // Function to render cart items
+                      function renderCart() {
+                        // Retrieve cart from localStorage
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const cartTableBody = document.querySelector('#cart-table-body');
+                        cartTableBody.innerHTML = ''; // Clear previous content
+                    
+                        // Loop through each product in the cart and add a row
+                        cart.forEach((product, index) => {
+                          const row = document.createElement('tr');
+                    
+                          row.innerHTML = `
+                            <td class="product-thumbnail">
+                              <img src="${product.image}" alt="Image" class="img-fluid">
+                            </td>
+                            <td class="product-name">
+                              <h2 class="h5 text-black">${product.name}</h2>
+                            </td>
+                            <td>$${product.price.toFixed(2)}</td>
+                            <td>
+                              <div class="input-group mb-3" style="max-width: 120px;">
+                                <div class="input-group-prepend">
+                                  <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                </div>
+                                <input type="text" class="form-control text-center" value="${product.quantity}" placeholder=""
+                                  aria-label="Example text with button addon" aria-describedby="button-addon1" data-index="${index}">
+                                <div class="input-group-append">
+                                  <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                </div>
+                              </div>
+                            </td>
+                            <td>$${(product.price * product.quantity).toFixed(2)}</td>
+                            <td><a href="#" class="btn btn-primary height-auto btn-sm" data-index="${index}">X</a></td>
+                            `;
+                    
+                          // <tr>
+                          //               <td class="product-thumbnail">
+                          //                 <img src="images/product_02.png" alt="Image" class="img-fluid">
+                          //               </td>
+                          //               <td class="product-name">
+                          //                 <h2 class="h5 text-black">Ibuprofen</h2>
+                          //               </td>
+                          //               <td>$55.00</td>
+                          //               <td>
+                          //                 <div class="input-group mb-3" style="max-width: 120px;">
+                          //                   <div class="input-group-prepend">
+                          //                     <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                          //                   </div>
+                          //                   <input type="text" class="form-control text-center" value="1" placeholder=""
+                          //                     aria-label="Example text with button addon" aria-describedby="button-addon1">
+                          //                   <div class="input-group-append">
+                          //                     <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                          //                   </div>
+                          //                 </div>
+                        
+                          //               </td>
+                          //               <td>$49.00</td>
+                          //               <td><a href="#" class="btn btn-primary height-auto btn-sm">X</a></td>
+                          //             </tr>
+                    
+                          cartTableBody.appendChild(row);
+                        });
+                    
+                        // Update total price
+                        updateTotalPrice();
+                      }
+                    
+                      // Update the total price of the cart
+                      function updateTotalPrice() {
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const total = cart.reduce((sum, product) => sum + product.price * product.quantity, 0);
+                        document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+                      }
+                    
+                      // Event listener for removing items from cart
+                      document.addEventListener('click', function (event) {
+                        if (event.target.classList.contains('remove-item')) {
+                          const index = event.target.dataset.index;
+                          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                          cart.splice(index, 1); // Remove item
+                          localStorage.setItem('cart', JSON.stringify(cart));
+                          renderCart(); // Refresh cart display
+                        }
+                      });
+                    
+                      // Event listener for quantity changes
+                      document.addEventListener('change', function (event) {
+                        if (event.target.classList.contains('product-quantity')) {
+                          const index = event.target.dataset.index;
+                          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                          cart[index].quantity = parseInt(event.target.value);
+                          localStorage.setItem('cart', JSON.stringify(cart));
+                          renderCart(); // Refresh cart display
+                        }
+                      });
+                    
+                      // Initial cart render
+                      renderCart();
+                    </script>
+
                   </tr>
                 </tbody>
               </table>
@@ -287,6 +388,9 @@
     </footer>
   </div>
 
+  
+
+  
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
   <script src="js/popper.min.js"></script>
