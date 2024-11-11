@@ -283,6 +283,50 @@
     window.location.href = "shop.html";
     }
   </script>
+  <script>
+    // Function to add product to the cart
+    function addToCart() {
+      // Retrieve product details from the page
+      const productName = document.getElementById('product-name').textContent;
+      const productPrice = document.getElementById('product-price').textContent.replace('$', '');
+      const productImage = document.getElementById('product-image').src;
+      const productQuantity = document.querySelector('.form-control.text-center').value;
+  
+      // Create a product object
+      const product = {
+        name: productName,
+        price: parseFloat(productPrice),
+        image: productImage,
+        quantity: parseInt(productQuantity)
+      };
+  
+      // Get existing cart from localStorage or initialize an empty array
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+      // Check if the product is already in the cart
+      const existingProductIndex = cart.findIndex(item => item.name === product.name);
+      if (existingProductIndex > -1) {
+        // Update quantity if product already exists in cart
+        cart[existingProductIndex].quantity += product.quantity;
+      } else {
+        // Add new product to cart
+        cart.push(product);
+      }
+  
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+  
+      // Confirm product has been added
+      alert(`${productName} has been added to your cart!`);
+    }
+  
+    // Attach the function to the "Add To Cart" button
+    document.querySelector('.buy-now').addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent default link behavior
+      addToCart();
+    });
+  </script>
+
 
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
