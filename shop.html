@@ -107,7 +107,7 @@
         </div>
     
         <div class="row">
-          <div class="col-sm-6 col-lg-4 text-center item mb-4" data-name="Bioderma">
+          <div class="col-sm-6 col-lg-4 text-center item mb-4" data-name="Bioderma" data-price="55.00" data-image="images/product_01.png">
             <span class="tag">Sale</span>
             <a href="shop-single.html" class="view-product"> <img src="images/product_01.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
@@ -291,6 +291,26 @@
             }
         });
     }
+    document.querySelectorAll('.view-product').forEach(item => {
+      item.addEventListener('click', event => {
+        event.preventDefault();  // Prevent the default link behavior
+  
+        // Get product details from the closest item container
+        const productElement = event.target.closest('.item');
+        const productName = productElement.dataset.name;
+        const productPrice = productElement.dataset.price;
+        const productImage = productElement.dataset.image;
+  
+        // Store product details in sessionStorage
+        sessionStorage.setItem('productName', productName);
+        sessionStorage.setItem('productPrice', productPrice);
+        sessionStorage.setItem('productImage', productImage);
+  
+        // Redirect to the single-shop.html page
+        window.location.href = 'shop-single.html';
+      });
+    });
+
   </script>
 
   <script src="js/jquery-3.3.1.min.js"></script>
