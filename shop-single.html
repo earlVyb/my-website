@@ -82,17 +82,17 @@
         <div class="row">
           <div class="col-md-5 mr-auto">
             <div class="border text-center">
-              <img src="images/product_07_large.png" alt="Image" class="img-fluid p-5">
+              <img id="product-image" src="images/product_07_large.png" alt="Image" class="img-fluid p-5">
             </div>
           </div>
           <div class="col-md-6">
-            <h2 class="text-black">Ibuprofen Tablets, 200mg</h2>
+            <h2 class="text-black" id="product-name">Ibuprofen Tablets, 200mg</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus
               soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas,
               distinctio, aperiam, ratione dolore.</p>
             
 
-            <p><del>$95.00</del>  <strong class="text-primary h4">$55.00</strong></p>
+            <p><del>$95.00</del>  <strong class="text-primary h4" id="product-price">$55.00</strong></p>
 
             
             
@@ -261,6 +261,25 @@
       </div>
     </footer>
   </div>
+
+  <!-- Custom Script to Retrieve Product Data -->
+  <script>
+    // Retrieve product details from sessionStorage
+    const productName = sessionStorage.getItem('productName');
+    const productPrice = sessionStorage.getItem('productPrice');
+    const productImage = sessionStorage.getItem('productImage');
+
+    // Check if product data exists in sessionStorage
+    if (productName && productPrice && productImage) {
+      // Populate product details on the page
+      document.getElementById('product-name').textContent = productName;
+      document.getElementById('product-price').textContent = `$${productPrice}`;
+      document.getElementById('product-image').src = productImage;
+      document.getElementById('breadcrumb-name').textContent = productName;
+    } else {
+      console.error("Product data is missing!");
+    }
+  </script>
 
   <script src="js/jquery-3.3.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
